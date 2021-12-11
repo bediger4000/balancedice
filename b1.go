@@ -40,7 +40,9 @@ func main() {
 		sort.Ints(b.right)
 		cksum := sumck(b.left)
 		if _, found := seen[cksum]; !found {
+			cksumR := sumck(b.right)
 			seen[cksum] = true
+			seen[cksumR] = true // don't output right == left
 			fmt.Printf("%v == %v\n", b.left, b.right)
 		}
 	}
