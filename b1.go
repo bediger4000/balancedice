@@ -37,26 +37,30 @@ func main() {
 			break
 		}
 		sort.Ints(b.left)
-		sort.Ints(b.right)
 		cksum := sumck(b.left)
 		if _, found := seen[cksum]; !found {
-			cksumR := sumck(b.right)
-			seen[cksum] = true
-			seen[cksumR] = true // don't output right == left
 			fmt.Printf("%v == %v\n", b.left, b.right)
+
+			seen[cksum] = true
+
+			sort.Ints(b.right)
+			seen[sumck(b.right)] = true // don't output right == left
 		}
 	}
 }
 
+// sumck finds base-7 value of a number which has digits of the array values.
+// Array values are 1 - 6
 func sumck(a []int) int {
 	cksum := 0
 	place := 1
 	for _, val := range a {
 		cksum += val * place
-		place *= 6
+		place *= 7
 	}
 	return cksum
 }
+
 func findBalance(ch chan *something, dice []int) {
 	var left, right []int
 	realbalance(ch, dice, left, right)
