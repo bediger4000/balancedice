@@ -22,6 +22,7 @@ func main() {
 		}
 		dice = append(dice, n)
 	}
+	sort.Ints(dice)
 
 	fmt.Printf("Dice: %v\n", dice)
 
@@ -85,7 +86,12 @@ func realbalance(ch chan *something, dice, left, right []int) {
 	copy(nextleft, left)
 	copy(nextright, right)
 
+	last := 0
 	for i := 0; i < len(dice); i++ {
+		if dice[i] == last {
+			continue
+		}
+		last = dice[i]
 		k := 0
 		var thru int
 		for j := 0; j < len(dice); j++ {
