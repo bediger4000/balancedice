@@ -61,7 +61,8 @@ func main() {
 
 // sumup calculates a single value for values []int
 // as if the slice values were digits of a base-7
-// number representation.
+// number representation. No zeros though: values
+// should be 1-6, from a d6 die.
 func sumup(values []int) int {
 	sum := 0
 	for i := range values {
@@ -70,18 +71,28 @@ func sumup(values []int) int {
 	return sum
 }
 
+// findBalance, which should be run in a goroutine,
+// calls realbalance() with values that don't matter
+// in the findBalance caller, and closes the channel
+// when realbalance() finishes. The whole of the backtracking
+// runs in its own goroutine.
 func findBalance(ch chan *something, dice []int, half int) {
 	var left, right []int
 	realbalance(ch, dice, left, right, 0, 0, half)
 	close(ch)
 }
 
+// realbalance recursively tries to find 2 slices whose values sum to
+// the value of the half argument.
 func realbalance(
 	ch chan *something,
 	dice, left, right []int,
 	sumleft, sumright, half int) {
 
 	if sumleft == half && sumleft == sumright {
+		// have to have sumleft == sumright to ensure that dice slice is empty.
+		// copy left and right slices to ensure that this goroutine doesn't change
+		// slices values before the main goroutine works with them.
 		nleft := make([]int, len(left))
 		copy(nleft, left)
 		nright := make([]int, len(right))
@@ -90,6 +101,8 @@ func realbalance(
 		return
 	}
 
+	// set up to create unbalanced dice, left and right slices of die values.
+	// One less die in dice, one more in new left and right slices
 	nextdice := make([]int, len(dice)-1)
 	nextleft := make([]int, len(left)+1)
 	nextright := make([]int, len(right)+1)
@@ -103,11 +116,11 @@ func realbalance(
 		if dice[i] == last {
 			continue
 		}
-		last = dice[i]
+		thru := dice[i]
+		last = thru
 		nextdice = nextdice[:0]
 		nextdice = append(nextdice, dice[:i]...)
 		nextdice = append(nextdice, dice[i+1:]...)
-		thru := dice[i]
 
 		if sumleft+thru <= half {
 			nextleft[lengthLeft] = thru
