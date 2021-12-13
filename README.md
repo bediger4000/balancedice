@@ -4,6 +4,12 @@ Found this on Twiter, with no other explanation:
 
 ![problem statement](20210913_081110.jpg?raw=true)
 
+I'll state it in text so others can find it:
+
+```
+Put these dice on the scale so that it balances.
+```
+
 It's just a puzzle, not a programming job interview question.
 
 ## Analysis
