@@ -35,7 +35,7 @@ func main() {
 		return
 	}
 
-	c := make(chan *something, 0)
+	c := make(chan *something, 20)
 	go findBalance(c, dice, sum/2)
 
 	seen := make(map[int]bool)
@@ -46,29 +46,28 @@ func main() {
 			break
 		}
 		sort.Ints(b.left)
-		sort.Ints(b.right)
-		sumL, cksumL := sumck(b.left)
-		sumR, cksumR := sumck(b.right)
-		if !(seen[cksumL] && seen[cksumR]) {
-			fmt.Printf("%v == %v\t%d == %d\n", b.left, b.right, sumL, sumR)
-			seen[cksumL] = true
-			seen[cksumR] = true
+		cksumL := sumup(b.left)
+		if !seen[cksumL] {
+			sort.Ints(b.right)
+			cksumR := sumup(b.right)
+			if !seen[cksumR] {
+				fmt.Fprintf(os.Stdout, "%v == %v\n", b.left, b.right)
+				seen[cksumL] = true
+				seen[cksumR] = true
+			}
 		}
 	}
 }
 
-// sumck finds base-7 value of a number which has digits of the array values.
-// Array values are 1 - 6
-func sumck(a []int) (int, int) {
+// sumup calculates a single value for values []int
+// as if the slice values were digits of a base-7
+// number representation.
+func sumup(values []int) int {
 	sum := 0
-	cksum := 0
-	place := 1
-	for _, val := range a {
-		sum += val
-		cksum += val * place
-		place *= 7
+	for i := range values {
+		sum = sum*7 + values[i]
 	}
-	return sum, cksum
+	return sum
 }
 
 func findBalance(ch chan *something, dice []int, half int) {
@@ -77,12 +76,17 @@ func findBalance(ch chan *something, dice []int, half int) {
 	close(ch)
 }
 
-func realbalance(ch chan *something, dice, left, right []int, sumleft, sumright, half int) {
+func realbalance(
+	ch chan *something,
+	dice, left, right []int,
+	sumleft, sumright, half int) {
 
-	if len(dice) == 0 {
-		if sumleft == sumright {
-			ch <- &something{left, right}
-		}
+	if sumleft == half && sumleft == sumright {
+		nleft := make([]int, len(left))
+		copy(nleft, left)
+		nright := make([]int, len(right))
+		copy(nright, right)
+		ch <- &something{left: nleft, right: nright}
 		return
 	}
 
