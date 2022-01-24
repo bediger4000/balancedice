@@ -12,6 +12,41 @@ Put these dice on the scale so that it balances.
 
 It's just a puzzle, not a programming job interview question.
 
+But it is a programming job interview question!
+
+---
+
+### Daily Coding Problem: Problem #1105 [Medium]
+
+This problem was asked by Facebook.
+
+Given a multiset of integers,
+return whether it can be partitioned into two subsets whose sums are the same.
+
+For example,
+given the multiset {15, 5, 20, 10, 35, 15, 10}, it would return true,
+since we can split it up into {15, 5, 10, 15, 10} and {20, 35},
+which both add up to 55.
+
+Given the multiset {15, 5, 20, 10, 35}, it would return false,
+since we can't split it up into two subsets that add up to the same sum.
+
+---
+
+This is exactly the same problem, phrased differently.
+For the record, the example sets of numbers partition like this:
+
+```
+$ ./b2 15 5 20 10 35 15 10
+Dice: [5 10 10 15 15 20 35], 110
+[5 10 10 15 15] == [20 35]
+[5 15 15 20] == [10 10 35]
+[5 15 35] == [10 10 15 20]
+```
+
+I'm a little skeptical that my "checksum" works on numbers other than 1-6,
+but the above example seems to work.
+
 ## Analysis
 
 Another puzzle that just assumes too much.
