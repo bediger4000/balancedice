@@ -1,6 +1,6 @@
 # Balance a pile of dice
 
-Found this on Twiter, with no other explanation:
+Found this on Twitter, with no other explanation:
 
 ![problem statement](20210913_081110.jpg?raw=true)
 
