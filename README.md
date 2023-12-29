@@ -47,6 +47,29 @@ Dice: [5 10 10 15 15 20 35], 110
 I'm a little skeptical that my "checksum" works on numbers other than 1-6,
 but the above example seems to work.
 
+### Daily Coding Problem: Problem #1591 [Hard]
+
+This problem was asked by Google.
+
+Given a list of integers S and a target number k,
+write a function that returns a subset of S that adds up to k.
+If such a subset cannot be made, then return null.
+
+Integers can appear more than once in the list.
+You may assume all numbers in the list are positive.
+
+For example, given S = [12, 1, 61, 5, 9, 2] and k = 24,
+return [12, 9, 2, 1] since it sums up to 24.
+
+---
+
+Another subset sum variant as a Daily Coding Problem,
+this time a "[Hard]".
+As formulated by Google,
+this seems like easier coding than Facebook's variant,
+which is only "[Medium]".
+There's no accounting for taste.
+
 ## Analysis
 
 Another puzzle that just assumes too much.
